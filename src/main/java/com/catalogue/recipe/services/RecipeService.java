@@ -1,5 +1,6 @@
 package com.catalogue.recipe.services;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +15,29 @@ public class RecipeService {
 	@Autowired
 	private RecipeRepo recipeRepo;
 
-	public List<Recipe> getRecipies() {
+	public List<Recipe> getRecipes() {
 		return recipeRepo.findAll();
 	}
-	
-	public String add(Recipe recipe){
+
+	public boolean add(Recipe recipe) {
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		System.out.println(recipe.getCreated());
+		recipe.setCreated(format.format(recipe.getCreated()));
 		recipeRepo.save(recipe);
-		return "success";
-	}
-	
-	public String remove(int id){
-		recipeRepo.deleteById(id);
-		return "success";
+		return true;
 	}
 
-	public String update(Recipe recipe) {
-		recipeRepo.save(recipe);
-		return null;
+	public boolean remove(int id) {
+		System.out.println(recipeRepo.findById(id));
+		recipeRepo.deleteById(id);
+		return true;
 	}
-	
-	
+
+	public boolean update(int id, Recipe recipe) {
+		if (!recipeRepo.existsById(id))
+			return false;
+		recipeRepo.save(recipe);
+		return true;
+	}
 
 }
