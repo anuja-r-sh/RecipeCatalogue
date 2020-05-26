@@ -6,19 +6,33 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Document
 public class Recipe {
 	
 	@Id
-	int id;
+	long _id;
 	Date created;
+	
+	@JsonProperty
 	boolean isVeg;
+	
 	int serveCount;
 	List<String> ingredients;
 	
 	public Recipe(){
 		
 	}
+	
+	public long get_id() {
+		return _id;
+	}
+
+	public void set_id(long _id) {
+		this._id = _id;
+	}
+
 	public Date getCreated() {
 		return created;
 	}
@@ -44,8 +58,12 @@ public class Recipe {
 		this.ingredients = ingredients;
 	}
 	
+
 	@Override
 	public String toString() {
-		return super.toString();
+		return "Recipe [_id=" + _id + ", created=" + created + ", isVeg=" + isVeg + ", serveCount=" + serveCount
+				+ ", ingredients=" + ingredients + "]";
 	}
+	
+	
 }
